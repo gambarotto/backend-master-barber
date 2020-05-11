@@ -6,8 +6,9 @@ import Avatar from '../app/models/Avatar';
 import Store from '../app/models/Store';
 import Address from '../app/models/Address';
 import Image from '../app/models/Image';
+import Employee from '../app/models/Employee';
 
-const models = [User, Avatar, Store, Address, Image];
+const models = [User, Avatar, Store, Address, Image, Employee];
 
 class Database {
   constructor() {
