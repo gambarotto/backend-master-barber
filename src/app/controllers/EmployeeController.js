@@ -63,14 +63,14 @@ class EmployeeController {
       responsibility,
       schedule,
       // eslint-disable-next-line camelcase
-      busy_schedule,
+      days_off,
     } = await employee.update(req.body);
 
     return res.json({
       name,
       responsibility,
       schedule,
-      busy_schedule,
+      days_off,
     });
   }
 

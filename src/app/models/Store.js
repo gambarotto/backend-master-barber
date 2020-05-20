@@ -22,6 +22,10 @@ class Store extends Model {
   static associate(models) {
     this.belongsTo(models.Address, { foreignKey: 'address_id', as: 'address' });
     this.belongsTo(models.Image, { foreignKey: 'image_id', as: 'image' });
+    this.belongsTo(models.Schedule, {
+      foreignKey: 'schedule_id',
+      as: 'schedule',
+    });
   }
 }
 
