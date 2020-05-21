@@ -7,7 +7,10 @@ import Custumer from '../models/Custumer';
 
 class AppointmentController {
   async index(req, res) {
-    const appointments = await Appointment.findAll();
+    const { storeId } = req.query;
+    const appointments = await Appointment.findAll({
+      where: { store_id: storeId },
+    });
 
     res.json(appointments);
   }

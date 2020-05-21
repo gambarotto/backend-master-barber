@@ -17,7 +17,8 @@ import Holiday from '../models/Holiday';
 
 class AvailableController {
   async index(req, res) {
-    const { date, employeeId } = req.query;
+    const { date } = req.query;
+    const { employeeId } = req.params;
     if (!date) {
       return res.status(400).json({ error: 'Date is not sended' });
     }

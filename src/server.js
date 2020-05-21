@@ -1,7 +1,7 @@
 // Servidor da aplicação
 import app from './app';
-import holiday from './config/fetch';
+// import holiday from './config/fetch';
 
-holiday();
+// holiday();
 
 app.listen(3333);
