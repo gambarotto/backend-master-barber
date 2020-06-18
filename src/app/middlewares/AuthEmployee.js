@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
-
+import Employee from '../models/Employee';
 import authConfig from '../../config/auth';
 
-async function employee(req, res, next) {
+async function employeeAuth(req, res, next) {
   const authHeaders = req.headers.authorization;
   if (!authHeaders) {
     return res.status(400).json({ error: 'Token not provider' });
@@ -13,11 +13,15 @@ async function employee(req, res, next) {
 
   try {
     const decoded = await promisify(jwt.verify)(token, authConfig.secret);
-    req.employeeId = decoded.id;
+    const employee = await Employee.findByPk(decoded.id);
+    if (!employee) {
+      return res.status(404).json({ error: 'Employee Auth invalid' });
+    }
+    req.employeeId = employee.id;
     return next();
   } catch (e) {
     return res.status(401).json({ error: 'Token invalid' });
   }
 }
 
-export default employee;
+export default employeeAuth;

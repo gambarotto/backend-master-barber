@@ -26,6 +26,7 @@ class Employee extends Model {
 
   static associate(models) {
     this.belongsTo(models.Store, { foreignKey: 'job_id', as: 'job' });
+    this.belongsTo(models.Avatar, { foreignKey: 'avatar_id', as: 'avatar' });
     this.belongsTo(models.Schedule, {
       foreignKey: 'schedule_id',
       as: 'schedule',

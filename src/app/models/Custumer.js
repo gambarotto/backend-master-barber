@@ -23,7 +23,7 @@ class Custumer extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.CustumerFb, { foreignKey: 'id_fb', as: 'facebook' });
+    this.belongsTo(models.FbCustumer, { foreignKey: 'id_fb', as: 'facebook' });
   }
 
   checkPassword(password) {

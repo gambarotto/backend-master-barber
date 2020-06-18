@@ -1,6 +1,9 @@
+import { startOfDay, endOfDay } from 'date-fns';
+import { Op } from 'sequelize';
 import Employee from '../models/Employee';
 import Store from '../models/Store';
 import Address from '../models/Address';
+import Appointment from '../models/Appointment';
 
 class OwnEmployeeController {
   async index(req, res) {
@@ -68,6 +71,65 @@ class OwnEmployeeController {
     await employee.destroy();
 
     return res.json({ success: 'Ok' });
+  }
+
+  async listAppointments(req, res) {
+    const {
+      initialdate: initialDate,
+      finaldate: finalDate,
+      page = 1,
+    } = req.query;
+
+    const appointments = await Appointment.findAndCountAll({
+      where: {
+        employee_id: req.employeeId,
+        date: {
+          [Op.between]: [
+            startOfDay(Number(initialDate)),
+            endOfDay(Number(finalDate)),
+          ],
+        },
+      },
+      order: ['date'],
+      limit: 20,
+      offset: (page - 1) * 20,
+    });
+
+    if (appointments.count === 0) {
+      return res.json({ appointments: 'You does not have appointments' });
+    }
+
+    return res.json(appointments);
+  }
+
+  async deleteAppointments(req, res) {
+    const appointment = await Appointment.findByPk(req.params.appointments_id);
+
+    if (!appointment) {
+      return res.status(404).json({ error: 'Appointment not found' });
+    }
+
+    return res.json({ success: 'ok' });
+  }
+
+  async validationAppointiment(req, res) {
+    const date = Number(new Date().getTime());
+    const appointment = await Appointment.findOne({
+      where: {
+        id: req.params.appointments_id,
+        date: {
+          [Op.between]: [startOfDay(date), endOfDay(date)],
+        },
+      },
+    });
+    if (!appointment) {
+      return res.status(404).json({ error: 'Appointment not found' });
+    }
+
+    appointment.validated = req.body.validated;
+    await appointment.save();
+
+    return res.json(appointment);
   }
 }
 export default new OwnEmployeeController();

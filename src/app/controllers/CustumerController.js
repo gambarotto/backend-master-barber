@@ -1,9 +1,8 @@
+import Custumer from '../models/Custumer';
 import Employee from '../models/Employee';
-import Store from '../models/Store';
 import User from '../models/User';
-import Schedule from '../models/Schedule';
 
-class EmployeeController {
+class CustumerController {
   async index(req, res) {
     const user = await User.findByPk(req.userId);
     const employees = await Employee.findAll({
@@ -13,32 +12,20 @@ class EmployeeController {
   }
 
   async store(req, res) {
-    const store = await Store.findByPk(req.params.store_id);
-    if (!store) {
-      return res.status(404).json({ error: 'Store not found' });
-    }
-    const employeeExists = await Employee.findOne({
-      where: { email: req.body.email },
+    const custumer = await Custumer.findOne({
+      where: {
+        email: req.body.email,
+      },
     });
-    if (employeeExists) {
-      return res.status(401).json({ error: 'Email already exists' });
+    if (custumer) {
+      return res.status(404).json({ error: 'Email already exists' });
     }
 
-    const {
-      id,
-      name,
-      email,
-      responsibility,
-      // schedule,
-      // // eslint-disable-next-line camelcase
-      // busy_schedule,
-    } = await Employee.create(req.body);
-
+    const { id, name, email } = await Custumer.create(req.body);
     return res.json({
       id,
       name,
       email,
-      responsibility,
     });
   }
 
@@ -88,4 +75,4 @@ class EmployeeController {
   }
 }
 
-export default new EmployeeController();
+export default new CustumerController();

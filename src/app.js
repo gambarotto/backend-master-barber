@@ -1,6 +1,7 @@
 import express from 'express';
 import { resolve } from 'path';
-import routes from './routes';
+// import routes from './routes';
+import routes from './routes/index';
 import './database';
 
 class App {
@@ -23,7 +24,7 @@ class App {
   }
 
   routes() {
-    this.server.use(routes);
+    this.server.use([...routes]);
   }
 }
 

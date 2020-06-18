@@ -1,5 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
-import { isBefore, subHours } from 'date-fns';
+import { isBefore, subHours, format, parseISO } from 'date-fns';
 
 class Appointment extends Model {
   static init(sequelize) {
@@ -7,11 +7,13 @@ class Appointment extends Model {
       {
         date: Sequelize.DATE,
         canceled_at: Sequelize.DATE,
+        validated: Sequelize.BOOLEAN,
         past: {
           type: Sequelize.VIRTUAL,
           // Verifica se o horário atual é depois do horário marcado
           get() {
-            return isBefore(this.date, new Date());
+            const date = format(this.date, "yyyy-MM-dd'T'HH:mm:ssxxx");
+            return isBefore(parseISO(date), new Date());
           },
         },
         cancelable: {

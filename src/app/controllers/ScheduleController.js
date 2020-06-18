@@ -1,7 +1,11 @@
 /* eslint-disable camelcase */
+import Sequelize from 'sequelize';
+import databaseConfig from '../../config/database';
+
 import Store from '../models/Store';
 import Schedule from '../models/Schedule';
 import Employee from '../models/Employee';
+import formatSchedule from '../../utils/formatSchedule';
 
 class ScheduleController {
   async store(req, res) {
@@ -18,21 +22,45 @@ class ScheduleController {
         return res.status(404).json({ error: 'Employee not found' });
       }
     }
-    const schedule = await Schedule.create(req.body);
-    if (!schedule) {
-      return res.status(401).json({ error: 'Error on save' });
+    const sequelize = new Sequelize(databaseConfig);
+    const trx = await sequelize.transaction();
+
+    /** Formatando o objeto schedule */
+    const schHoliday = req.body.holiday;
+    const data = {
+      ...req.body,
+      holiday:
+        schHoliday.entrance.length === 0
+          ? []
+          : formatSchedule.scheduleHoliday(schHoliday),
+      days_week: formatSchedule.scheduleWeek(req.body.days_week),
+    };
+
+    try {
+      const schedule = await Schedule.create(data, { transaction: trx });
+      owner.schedule_id = schedule.id;
+      await owner.save({ transaction: trx });
+      trx.commit();
+      const {
+        id,
+        holiday,
+        special,
+        owner_id,
+        owner_type,
+        days_week,
+      } = schedule;
+      return res.json({
+        id,
+        holiday,
+        special,
+        owner_id,
+        owner_type,
+        days_week,
+      });
+    } catch (error) {
+      trx.rollback();
+      return res.status(400).json({ error: 'Error on save' });
     }
-    owner.schedule_id = schedule.id;
-    await owner.save();
-    const { id, holiday, special, owner_id, owner_type, days_week } = schedule;
-    return res.json({
-      id,
-      holiday,
-      special,
-      owner_id,
-      owner_type,
-      days_week,
-    });
   }
 
   async update(req, res) {

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import Sequelize from 'sequelize';
 
 import databaseConfig from '../config/database';
@@ -9,7 +10,7 @@ import Image from '../app/models/Image';
 import Employee from '../app/models/Employee';
 import Appointment from '../app/models/Appointment';
 import Custumer from '../app/models/Custumer';
-import CustumerFb from '../app/models/CustumerFb';
+import FbCustumer from '../app/models/FbCustumer';
 import Schedule from '../app/models/Schedule';
 import Holiday from '../app/models/Holiday';
 
@@ -22,7 +23,7 @@ const models = [
   Employee,
   Appointment,
   Custumer,
-  CustumerFb,
+  FbCustumer,
   Schedule,
   Holiday,
 ];

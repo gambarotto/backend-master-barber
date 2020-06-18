@@ -13,7 +13,8 @@ import Appointment from '../models/Appointment';
 import Employee from '../models/Employee';
 // import Store from '../models/Store';
 import Schedule from '../models/Schedule';
-import Holiday from '../models/Holiday';
+// import Holiday from '../models/Holiday';
+import Fetch from '../../utils/fetch';
 
 class AvailableController {
   async index(req, res) {
@@ -22,6 +23,7 @@ class AvailableController {
     if (!date) {
       return res.status(400).json({ error: 'Date is not sended' });
     }
+    /** Busca as informações do employee */
     const employee = await Employee.findByPk(employeeId, {
       include: [
         {
@@ -36,6 +38,8 @@ class AvailableController {
     }
 
     const searchDate = Number(date);
+
+    /** Busca os agendamentos referente ao dia selecionado */
     const appointments = await Appointment.findAll({
       where: {
         store_id: employee.job_id,
@@ -49,32 +53,31 @@ class AvailableController {
     // Verify if employee is in day off
     const dayWeek = new Date(searchDate).getDay();
     // const dayWeek = 3;
-    if (employee.days_off.indexOf(dayWeek) >= 0) {
-      return res.json({ error: 'Employee is off' });
+    const employeeDayOff = employee.schedule.days_week.filter(
+      (day) => day.dayOfWeek === dayWeek
+    );
+    const isDayOff = employeeDayOff[0].dayOff;
+
+    if (isDayOff) {
+      return res.status(400).json({ error: 'Employee is off' });
     }
 
-    // Verifica se o dia selecionado é um feriado
     const dateFormatted = format(searchDate, 'dd/MM/yyyy');
-    const { holidays } = await Holiday.findOne({
-      where: { year: '2020' },
-      attributes: ['holidays'],
-    });
-    let isHoliday = false;
-
-    if (holidays.find((holiday) => holiday.date === dateFormatted)) {
-      isHoliday = true;
-    }
+    const year = new Date(searchDate).getFullYear();
+    // Verifica se o dia selecionado é um feriado
+    const isHoliday = await Fetch.holidays(dateFormatted, year);
 
     let scheduleEmployee = [];
 
     if (isHoliday) {
-      scheduleEmployee = employee.schedule.holiday;
-    } else {
-      scheduleEmployee = employee.schedule.days_week.filter(
-        (item) => item.dayOfWeek === dayWeek
-      );
-      scheduleEmployee = [...scheduleEmployee[0].schedule];
+      // scheduleEmployee = employee.schedule.holiday;
+      return res.status(400).json({ error: ' is a holiday' });
     }
+    scheduleEmployee = employee.schedule.days_week.filter(
+      (item) => item.dayOfWeek === dayWeek
+    );
+    scheduleEmployee = scheduleEmployee[0].scheduleParsed;
+
     const available = scheduleEmployee.map((time) => {
       // time = 09:00
       const [hour, minute] = time.split(':');
