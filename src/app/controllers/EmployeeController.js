@@ -1,7 +1,6 @@
 import Employee from '../models/Employee';
 import Store from '../models/Store';
 import User from '../models/User';
-import Schedule from '../models/Schedule';
 
 class EmployeeController {
   async index(req, res) {
@@ -24,15 +23,7 @@ class EmployeeController {
       return res.status(401).json({ error: 'Email already exists' });
     }
 
-    const {
-      id,
-      name,
-      email,
-      responsibility,
-      // schedule,
-      // // eslint-disable-next-line camelcase
-      // busy_schedule,
-    } = await Employee.create(req.body);
+    const { id, name, email, responsibility } = await Employee.create(req.body);
 
     return res.json({
       id,

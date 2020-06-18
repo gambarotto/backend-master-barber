@@ -11,9 +11,7 @@ import { Op } from 'sequelize';
 
 import Appointment from '../models/Appointment';
 import Employee from '../models/Employee';
-// import Store from '../models/Store';
 import Schedule from '../models/Schedule';
-// import Holiday from '../models/Holiday';
 import Fetch from '../../utils/fetch';
 
 class AvailableController {
@@ -70,6 +68,7 @@ class AvailableController {
     let scheduleEmployee = [];
 
     if (isHoliday) {
+      // TODO ajust holiday
       // scheduleEmployee = employee.schedule.holiday;
       return res.status(400).json({ error: ' is a holiday' });
     }

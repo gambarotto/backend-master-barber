@@ -29,8 +29,6 @@ class AppointmentController {
     if (!custumer) {
       return res.status(404).json({ error: 'Custumer not found' });
     }
-    // const dayOfWeek = parseISO(req.body.date).getDay();
-    // // 0 = Dom, 1 = Seg, ..., 6 = Sáb
 
     const appointment = await Appointment.create({
       date: req.body.date,
