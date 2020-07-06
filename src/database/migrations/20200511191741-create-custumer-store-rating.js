@@ -1,22 +1,28 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('holidays', {
+    return queryInterface.createTable('ratings', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      year: {
-        type: Sequelize.STRING,
+      store_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'stores', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
         allowNull: false,
       },
-      ibge_code: {
-        type: Sequelize.STRING,
+      custumer_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'custumers', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
         allowNull: false,
       },
-      holidays: {
-        type: Sequelize.ARRAY(Sequelize.JSON),
+      rating: {
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       created_at: {
@@ -31,6 +37,6 @@ module.exports = {
   },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable('holidays');
+    return queryInterface.dropTable('ratings');
   },
 };

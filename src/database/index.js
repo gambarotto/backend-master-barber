@@ -13,6 +13,9 @@ import Custumer from '../app/models/Custumer';
 import FbCustumer from '../app/models/FbCustumer';
 import Schedule from '../app/models/Schedule';
 import Holiday from '../app/models/Holiday';
+import Favorite from '../app/models/Favorite';
+import Coupon from '../app/models/Coupon';
+import Rating from '../app/models/Rating';
 
 const models = [
   User,
@@ -26,6 +29,9 @@ const models = [
   FbCustumer,
   Schedule,
   Holiday,
+  Favorite,
+  Coupon,
+  Rating,
 ];
 
 class Database {

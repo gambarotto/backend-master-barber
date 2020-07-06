@@ -2,6 +2,7 @@ import { startOfDay, endOfDay } from 'date-fns';
 import { Op } from 'sequelize';
 import Employee from '../models/Employee';
 import Store from '../models/Store';
+import Schedule from '../models/Schedule';
 import Address from '../models/Address';
 import Appointment from '../models/Appointment';
 
@@ -21,6 +22,11 @@ class OwnEmployeeController {
               attributes: ['street', 'number', 'state', 'zipcode'],
             },
           ],
+        },
+        {
+          model: Schedule,
+          as: 'schedule',
+          attributes: ['holiday', 'special', 'days_week'],
         },
       ],
     });
@@ -49,7 +55,7 @@ class OwnEmployeeController {
     const {
       name,
       responsibility,
-      schedule,
+      // schedule,
       // eslint-disable-next-line camelcase
       days_off,
     } = await employee.update(req.body);
@@ -57,7 +63,6 @@ class OwnEmployeeController {
     return res.json({
       name,
       responsibility,
-      schedule,
       days_off,
     });
   }

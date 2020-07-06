@@ -22,6 +22,7 @@ class ScheduleController {
         return res.status(404).json({ error: 'Employee not found' });
       }
     }
+
     const sequelize = new Sequelize(databaseConfig);
     const trx = await sequelize.transaction();
 
@@ -68,16 +69,31 @@ class ScheduleController {
     if (!schedule) {
       return res.status(404).json({ error: 'Schedule not found' });
     }
+    const schHoliday = req.body.holiday;
+    const data = {
+      ...req.body,
+      holiday:
+        schHoliday.entrance.length === 0
+          ? []
+          : formatSchedule.scheduleHoliday(schHoliday),
+      days_week: formatSchedule.scheduleWeek(req.body.days_week),
+    };
 
-    const { id, saturday, sunday, holiday, special } = await schedule.update(
-      req.body
-    );
-    return res.json({
+    const {
       id,
-      saturday,
-      sunday,
       holiday,
       special,
+      owner_id,
+      owner_type,
+      days_week,
+    } = await schedule.update(data);
+    return res.json({
+      id,
+      holiday,
+      special,
+      owner_id,
+      owner_type,
+      days_week,
     });
   }
 }

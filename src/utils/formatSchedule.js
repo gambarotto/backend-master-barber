@@ -5,19 +5,27 @@ const formatSchedule = {
 
     const schedule = daysWeek.map((day) => {
       const { entrance, exit, lunch } = day.schedule;
+
       const hourEntrance = entrance[0].split(':');
+
       const hourExit = exit[0].split(':');
-      const hourEntranceLunch = lunch[0].split(':');
-      const hourExitLunch = lunch[1].split(':');
 
       const arrBeforeLunch = [];
       const arrAfterLunch = [];
+      if (lunch.length === 0) {
+        for (let i = hourEntrance[0]; i < hourExit[0]; i++) {
+          arrBeforeLunch.push(`${i}:00`);
+        }
+      } else {
+        const hourEntranceLunch = lunch[0].split(':');
+        const hourExitLunch = lunch[1].split(':');
 
-      for (let i = hourEntrance[0]; i < hourEntranceLunch[0]; i++) {
-        arrBeforeLunch.push(`${i}:00`);
-      }
-      for (let i = hourExitLunch[0]; i < hourExit[0]; i++) {
-        arrAfterLunch.push(`${i}:00`);
+        for (let i = hourEntrance[0]; i < hourEntranceLunch[0]; i++) {
+          arrBeforeLunch.push(`${i}:00`);
+        }
+        for (let i = hourExitLunch[0]; i < hourExit[0]; i++) {
+          arrAfterLunch.push(`${i}:00`);
+        }
       }
 
       return {
