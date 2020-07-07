@@ -15,7 +15,9 @@ import Schedule from '../app/models/Schedule';
 import Holiday from '../app/models/Holiday';
 import Favorite from '../app/models/Favorite';
 import Coupon from '../app/models/Coupon';
-import Rating from '../app/models/Rating';
+import RatingStores from '../app/models/RatingStores';
+import Avaliation from '../app/models/Avaliation';
+import Service from '../app/models/Service';
 
 const models = [
   User,
@@ -31,7 +33,9 @@ const models = [
   Holiday,
   Favorite,
   Coupon,
-  Rating,
+  RatingStores,
+  Avaliation,
+  Service,
 ];
 
 class Database {

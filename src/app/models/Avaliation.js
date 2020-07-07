@@ -1,10 +1,10 @@
 import Sequelize, { Model } from 'sequelize';
 
-class Rating extends Model {
+class Avaliation extends Model {
   static init(sequelize) {
     super.init(
       {
-        rating: Sequelize.NUMBER,
+        rating: Sequelize.DOUBLE,
       },
       {
         sequelize,
@@ -24,4 +24,4 @@ class Rating extends Model {
     });
   }
 }
-export default Rating;
+export default Avaliation;

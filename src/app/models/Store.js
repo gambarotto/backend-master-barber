@@ -26,6 +26,11 @@ class Store extends Model {
       foreignKey: 'schedule_id',
       as: 'schedule',
     });
+    this.belongsTo(models.RatingStores, {
+      foreignKey: 'rating_id',
+      as: 'rating',
+    });
+    this.hasMany(models.Service, { foreignKey: 'store_id' });
   }
 }
 

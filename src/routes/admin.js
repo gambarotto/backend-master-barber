@@ -12,6 +12,7 @@ import ImageController from '../app/controllers/ImageController';
 import EmployeeController from '../app/controllers/EmployeeController';
 import AppointmentController from '../app/controllers/AppointmentController';
 import ScheduleController from '../app/controllers/ScheduleController';
+import ServiceController from '../app/controllers/ServiceController';
 import multerConfig from '../config/multer';
 
 const routes = new Router();
@@ -67,5 +68,10 @@ routes.get(
   AppointmentController.indexDayOrEmployee
 );
 routes.get('/appointments', authMidUser, AppointmentController.index);
+
+routes.get('/services', ServiceController.index);
+routes.post('/services', authMidUser, ServiceController.store);
+routes.put('/services/:service_id', authMidUser, ServiceController.update);
+routes.delete('/services/:service_id', authMidUser, ServiceController.delete);
 
 export default routes;
