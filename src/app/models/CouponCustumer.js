@@ -1,11 +1,11 @@
 import Sequelize, { Model } from 'sequelize';
 
-class Coupon extends Model {
+class CouponCustumer extends Model {
   static init(sequelize) {
     super.init(
       {
-        tikets: Sequelize.NUMBER,
-        coupon: Sequelize.NUMBER,
+        coupons: Sequelize.INTEGER,
+        tickets: Sequelize.INTEGER,
       },
       {
         sequelize,
@@ -25,4 +25,4 @@ class Coupon extends Model {
     });
   }
 }
-export default Coupon;
+export default CouponCustumer;

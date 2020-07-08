@@ -25,6 +25,7 @@ class Custumer extends Model {
   static associate(models) {
     this.belongsTo(models.FbCustumer, { foreignKey: 'id_fb', as: 'facebook' });
     this.belongsTo(models.Avatar, { foreignKey: 'avatar_id', as: 'avatar' });
+    // this.belongsTo(models.Coupon, { foreignKey: 'coupon_id', as: 'coupon' });
   }
 
   checkPassword(password) {
