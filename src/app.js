@@ -1,5 +1,6 @@
 import express from 'express';
 import { resolve } from 'path';
+import cors from 'cors';
 import routes from './routes/index';
 import './database';
 
@@ -8,6 +9,7 @@ class App {
     this.server = express();
     this.middlewares();
     this.routes();
+    this.cors();
   }
 
   middlewares() {
@@ -24,6 +26,10 @@ class App {
 
   routes() {
     this.server.use([...routes]);
+  }
+
+  cors() {
+    this.server.use(cors());
   }
 }
 

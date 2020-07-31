@@ -1,12 +1,35 @@
 import Employee from '../models/Employee';
 import Store from '../models/Store';
 import User from '../models/User';
+import Avatar from '../models/Avatar';
 
 class EmployeeController {
   async index(req, res) {
     const user = await User.findByPk(req.userId);
     const employees = await Employee.findAll({
       where: { job_id: user.store_id },
+    });
+    return res.json(employees);
+  }
+
+  async indexByStore(req, res) {
+    const employees = await Employee.findAll({
+      where: { job_id: req.params.store_id },
+      attributes: [
+        'id',
+        'name',
+        'email',
+        'responsibility',
+        'job_id',
+        'schedule_id',
+      ],
+      include: [
+        {
+          model: Avatar,
+          as: 'avatar',
+          attributes: ['id', 'url', 'path'],
+        },
+      ],
     });
     return res.json(employees);
   }

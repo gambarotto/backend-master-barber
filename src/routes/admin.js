@@ -22,6 +22,9 @@ const uploadImage = multer(multerConfig.configImages);
 routes.post('/sessions', SessionController.adminStore);
 routes.post('/users', UserController.store);
 
+/* Employee routes */
+routes.get('/stores/employees', authMidUser, EmployeeController.index);
+
 routes.post('/stores/:store_id/employees', EmployeeController.store);
 routes.put('/stores/employees/:employee_id', EmployeeController.update);
 routes.delete(
@@ -39,6 +42,7 @@ routes.post(
   AvatarController.storeUsers
 );
 /* Stores routes */
+routes.get('/stores', authMidUser, StoreController.index);
 routes.post('/users/:user_id/stores', authMidUser, StoreController.store);
 routes.put('/stores/:user_id', authMidUser, StoreController.update);
 routes.delete('/stores/:store_id', authMidUser, StoreController.delete);
@@ -54,9 +58,6 @@ routes.post(
   authMidUser,
   AddressController.store
 );
-
-/* Employee routes */
-routes.get('/stores/employees', authMidUser, EmployeeController.index);
 
 /* Schedule routes */
 routes.post('/schedules', ScheduleController.store);

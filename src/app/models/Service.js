@@ -13,5 +13,9 @@ class Service extends Model {
     );
     return this;
   }
+
+  static associate(models) {
+    this.belongsTo(models.Store, { foreignKey: 'store_id', as: 'store' });
+  }
 }
 export default Service;

@@ -8,6 +8,28 @@ import Employee from '../models/Employee';
 import formatSchedule from '../../utils/formatSchedule';
 
 class ScheduleController {
+  async show(req, res) {
+    const employee = await Employee.findByPk(req.params.employee_id);
+    if (!employee) {
+      return res.status(404).json({ error: 'Employee not found' });
+    }
+    const schedule = await Schedule.findByPk(employee.schedule_id, {
+      attributes: [
+        'id',
+        'holiday',
+        'special',
+        'owner_id',
+        'owner_type',
+        'days_week',
+      ],
+    });
+    if (!schedule) {
+      return res.status(404).json({ error: 'Schedule not found' });
+    }
+
+    return res.json(schedule);
+  }
+
   async store(req, res) {
     let owner = null;
     const OwnerType = req.body.owner_type;

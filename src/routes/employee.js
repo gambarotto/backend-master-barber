@@ -3,7 +3,7 @@ import multer from 'multer';
 
 import authMidEmployee from '../app/middlewares/AuthEmployee';
 
-import Session from '../app/controllers/SessionController';
+import SessionController from '../app/controllers/SessionController';
 import AvatarController from '../app/controllers/AvatarController';
 import AppointmentController from '../app/controllers/AppointmentController';
 import OwnEmployee from '../app/controllers/OwnEmployeeController';
@@ -13,7 +13,7 @@ const uploadAvatar = multer(multerConfig.configAvatars);
 
 const routes = new Router();
 
-routes.post('/sessions/employees', Session.employeeStore);
+routes.post('/sessions/employees', SessionController.employeeStore);
 
 routes.delete('/appointments/:id', AppointmentController.delete);
 

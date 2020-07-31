@@ -10,7 +10,6 @@ class Employee extends Model {
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
         responsibility: Sequelize.STRING,
-        days_off: Sequelize.ARRAY(Sequelize.INTEGER),
       },
       {
         sequelize,

@@ -1,12 +1,54 @@
 import CouponCustumer from '../models/CouponCustumer';
+import Store from '../models/Store';
+import Image from '../models/Image';
+import RatingStores from '../models/RatingStores';
+import Address from '../models/Address';
 
 class CouponController {
   async show(req, res) {
     const coupons = await CouponCustumer.findAll({
       where: {
-        custumer_id: req.query.custumer,
+        custumer_id: req.params.custumer_id,
       },
       attributes: ['id', 'coupons', 'tickets', 'store_id', 'custumer_id'],
+      include: [
+        {
+          model: Store,
+          as: 'store',
+          attributes: [
+            'id',
+            'name',
+            'email',
+            'tel',
+            'facebook_url',
+            'instagram_url',
+          ],
+          include: [
+            {
+              model: Address,
+              as: 'address',
+              attributes: [
+                'street',
+                'number',
+                'complement',
+                'state',
+                'city',
+                'zipcode',
+              ],
+            },
+            {
+              model: Image,
+              as: 'image',
+              attributes: ['id', 'url', 'path'],
+            },
+            {
+              model: RatingStores,
+              as: 'rating',
+              attributes: ['id', 'qty', 'rating'],
+            },
+          ],
+        },
+      ],
     });
     return res.json(coupons);
   }

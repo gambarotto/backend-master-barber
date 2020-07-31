@@ -4,6 +4,7 @@ import Store from '../models/Store';
 import Employee from '../models/Employee';
 import Appointment from '../models/Appointment';
 import Custumer from '../models/Custumer';
+import verifyIsCancelable from '../../utils/verifyIsCancelable';
 
 class AppointmentController {
   async index(req, res) {
@@ -63,13 +64,21 @@ class AppointmentController {
   }
 
   async delete(req, res) {
-    const appointment = await Appointment.findByPk(req.params.id);
+    const appointment = await Appointment.findByPk(req.params.appointment_id);
     if (!appointment) {
       return res.status(404).json({ error: 'Appointment not found' });
     }
+    const custumer = await Custumer.findByPk(req.params.custumer_id);
+    if (!custumer) {
+      return res.status(404).json({ error: 'Custumer not found' });
+    }
 
-    appointment.canceled_at = new Date();
-    await appointment.save();
+    if (verifyIsCancelable(appointment.date)) {
+      return res.status(404).json({ error: 'Appointment can not be canceled' });
+    }
+
+    // appointment.canceled_at = new Date();
+    // await appointment.save();
     return res.json(appointment);
   }
 }

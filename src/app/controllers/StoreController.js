@@ -42,7 +42,13 @@ class StoreController {
         },
         {
           model: Service,
+          as: 'services',
           attributes: ['id', 'name', 'price'],
+        },
+        {
+          model: RatingStores,
+          as: 'rating',
+          attributes: ['id', 'qty', 'rating'],
         },
       ],
     });

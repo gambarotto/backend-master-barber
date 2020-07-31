@@ -31,7 +31,8 @@ class Store extends Model {
       foreignKey: 'rating_id',
       as: 'rating',
     });
-    this.hasMany(models.Service, { foreignKey: 'store_id' });
+    this.hasMany(models.Service, { foreignKey: 'store_id', as: 'services' });
+    this.hasMany(models.Employee, { foreignKey: 'job_id', as: 'employees' });
   }
 }
 

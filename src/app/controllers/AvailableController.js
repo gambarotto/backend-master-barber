@@ -51,13 +51,14 @@ class AvailableController {
     // Verify if employee is in day off
     const dayWeek = new Date(searchDate).getDay();
     // const dayWeek = 3;
-    const employeeDayOff = employee.schedule.days_week.filter(
+    console.log(JSON.stringify(employee.schedule));
+    const employeeDaySchedule = employee.schedule.days_week.filter(
       (day) => day.dayOfWeek === dayWeek
     );
-    const isDayOff = employeeDayOff[0].dayOff;
+    const isDayOff = employeeDaySchedule[0].dayOff;
 
     if (isDayOff) {
-      return res.status(400).json({ error: 'Employee is off' });
+      return res.json([{ dayOff: true, time: '', value: '', available: null }]);
     }
 
     const dateFormatted = format(searchDate, 'dd/MM/yyyy');
@@ -72,10 +73,10 @@ class AvailableController {
       // scheduleEmployee = employee.schedule.holiday;
       return res.status(400).json({ error: ' is a holiday' });
     }
-    scheduleEmployee = employee.schedule.days_week.filter(
-      (item) => item.dayOfWeek === dayWeek
-    );
-    scheduleEmployee = scheduleEmployee[0].scheduleParsed;
+    // scheduleEmployee = employee.schedule.days_week.filter(
+    //   (item) => item.dayOfWeek === dayWeek
+    // );
+    scheduleEmployee = employeeDaySchedule[0].scheduleParsed;
 
     const available = scheduleEmployee.map((time) => {
       // time = 09:00
