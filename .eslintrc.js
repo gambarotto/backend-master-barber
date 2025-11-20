@@ -3,11 +3,9 @@ module.exports = {
     es6: true,
     node: true,
   },
-  extends: [
-    'airbnb-base',
-    'prettier'
-  ],
-  plugins: ['prettier'],
+  extends: ['airbnb-base', 'prettier', 'plugin:@typescript-eslint/recommended'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['prettier', '@typescript-eslint'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -17,10 +15,16 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    "prettier/prettier": "error",//qdo o prettier encontrar um erro, ele notifica (apenas qdo o prettier estiver instalado)
-    "class-methods-use-this": "off",
-    "no-param-reassign": "off",
-    "camelCase": "off",//Desabilita a regra q proíbe a criação de variaveis q não sejam camelCase
-    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+    'prettier/prettier': 'error',
+    'class-methods-use-this': 'off',
+    'no-param-reassign': 'off',
+    camelCase: 'off',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { argsIgnorePattern: 'next' },
+    ],
+    '@typescript-eslint/no-explicit-any': 'off',
+    'import/extensions': 'off',
   },
 };
