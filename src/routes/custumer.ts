@@ -22,90 +22,89 @@ const uploadAvatar = multer(multerConfig.configAvatars);
 
 const routes = Router();
 
-routes.post('/sessions/custumers', SessionController.custumerStore);
+routes.post('/sessions/custumers', (req, res) =>
+  SessionController.custumerStore(req, res)
+);
 
 /** ---------------------- Custumer routes ----------------* */
-routes.post('/custumers', CustumerController.store);
-routes.put(
-  '/custumers/:custumer_id',
-  AuthMidCustumer,
-  CustumerController.update
+routes.post('/custumers', (req, res) => CustumerController.store(req, res));
+routes.put('/custumers/:custumer_id', AuthMidCustumer, (req, res) =>
+  CustumerController.update(req, res)
 );
-routes.get('/custumers/:custumer_id', AuthMidCustumer, CustumerController.show);
-routes.delete(
-  '/custumers/:custumer_id',
-  AuthMidCustumer,
-  CustumerController.delete
+routes.get('/custumers/:custumer_id', AuthMidCustumer, (req, res) =>
+  CustumerController.show(req, res)
+);
+routes.delete('/custumers/:custumer_id', AuthMidCustumer, (req, res) =>
+  CustumerController.delete(req, res)
 );
 
-routes.get(
-  '/stores/:store_id/employees',
-  AuthMidCustumer,
-  EmployeeController.indexByStore
+routes.get('/stores/:store_id/employees', AuthMidCustumer, (req, res) =>
+  EmployeeController.indexByStore(req, res)
 );
 routes.get(
   '/appointments/custumers/:custumer_id',
   AuthMidCustumer,
-  AppointmentToolsController.indexByCustumer
+  (req, res) => AppointmentToolsController.indexByCustumer(req, res)
 );
 routes.delete(
   '/appointments/:appointment_id/custumers/:custumer_id',
   AuthMidCustumer,
-  AppointmentController.delete
+  (req, res) => AppointmentController.delete(req, res)
 );
 
-routes.get('/stores', AuthMidCustumer, StoreController.index);
-routes.post(
-  '/stores/:store_id/appointments',
-  AuthMidCustumer,
-  AppointmentController.store
+routes.get('/stores', AuthMidCustumer, (req, res) =>
+  StoreController.index(req, res)
 );
-routes.get(
-  '/employees/:employeeId/availables',
-  AuthMidCustumer,
-  AvailableController.index
+routes.post('/stores/:store_id/appointments', AuthMidCustumer, (req, res) =>
+  AppointmentController.store(req, res)
+);
+routes.get('/employees/:employeeId/availables', AuthMidCustumer, (req, res) =>
+  AvailableController.index(req, res)
 );
 
-routes.post('/custumers/:custumer_id/fbcustumers', FbCustumerController.store);
+routes.post('/custumers/:custumer_id/fbcustumers', (req, res) =>
+  FbCustumerController.store(req, res)
+);
 routes.post(
   '/custumers/:custumer_id/avatars',
   AuthMidCustumer,
   uploadAvatar.single('avatar'),
-  AvatarCustumerController.store
+  (req, res) => AvatarCustumerController.store(req, res)
 );
 
 routes.get(
   '/avaliation/stores/:store_id/custumer/:custumer_id',
   AuthMidCustumer,
-  AvaliationController.show
+  (req, res) => AvaliationController.show(req, res)
 );
-routes.post('/avaliation', AuthMidCustumer, AvaliationController.store);
-routes.put('/avaliation', AuthMidCustumer, AvaliationController.update);
-
-routes.get(
-  '/coupons/custumers/:custumer_id',
-  AuthMidCustumer,
-  CouponController.show
+routes.post('/avaliation', AuthMidCustumer, (req, res) =>
+  AvaliationController.store(req, res)
 );
-routes.post('/coupons', AuthMidCustumer, CouponController.store);
-routes.put('/coupons/:coupon_id', AuthMidCustumer, CouponController.update);
-
-routes.get(
-  '/schedules/employees/:employee_id',
-  AuthMidCustumer,
-  ScheduleController.show
+routes.put('/avaliation', AuthMidCustumer, (req, res) =>
+  AvaliationController.update(req, res)
 );
 
-routes.get(
-  '/favorites/custumers/:custumer_id',
-  AuthMidCustumer,
-  FavoriteController.show
+routes.get('/coupons/custumers/:custumer_id', AuthMidCustumer, (req, res) =>
+  CouponController.show(req, res)
 );
-routes.post('/favorities', AuthMidCustumer, FavoriteController.store);
-routes.delete(
-  '/favorities/:favorite_id',
-  AuthMidCustumer,
-  FavoriteController.delete
+routes.post('/coupons', AuthMidCustumer, (req, res) =>
+  CouponController.store(req, res)
+);
+routes.put('/coupons/:coupon_id', AuthMidCustumer, (req, res) =>
+  CouponController.update(req, res)
+);
+
+routes.get('/schedules/employees/:employee_id', AuthMidCustumer, (req, res) =>
+  ScheduleController.show(req, res)
+);
+
+routes.get('/favorites/custumers/:custumer_id', AuthMidCustumer, (req, res) =>
+  FavoriteController.show(req, res)
+);
+routes.post('/favorities', AuthMidCustumer, (req, res) =>
+  FavoriteController.store(req, res)
+);
+routes.delete('/favorities/:favorite_id', AuthMidCustumer, (req, res) =>
+  FavoriteController.delete(req, res)
 );
 export default routes;
-

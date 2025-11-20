@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { eq } from 'drizzle-orm';
 
 import db from '../../config/database';
-import { ratingStores, custumers, stores } from '../../database/schema';
+import { ratingStores, custumers, stores } from '../../db/schema';
 
 class RatingController {
   async store(req: Request, res: Response): Promise<Response> {

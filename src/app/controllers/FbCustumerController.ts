@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { eq } from 'drizzle-orm';
 
 import db from '../../config/database';
-import { custumers, fbCustumers } from '../../database/schema';
+import { custumers, fbCustumers } from '../../db/schema';
 
 class FbCustumerController {
   async store(req: Request, res: Response): Promise<Response> {

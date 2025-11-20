@@ -3,7 +3,7 @@ import { startOfDay, endOfDay } from 'date-fns';
 import { eq, and, between, isNull, isNotNull } from 'drizzle-orm';
 
 import db from '../../config/database';
-import { appointments, stores, employees, avatars, images } from '../../database/schema';
+import { appointments, stores, employees, avatars, images } from '../../db/schema';
 
 class AppointmentToolsController {
   async indexByCustumer(req: Request, res: Response): Promise<Response> {

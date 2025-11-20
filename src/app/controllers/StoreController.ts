@@ -10,7 +10,7 @@ import {
   images,
   ratingStores,
   services,
-} from '../../database/schema';
+} from '../../db/schema';
 
 class StoreController {
   async index(req: Request, res: Response): Promise<Response> {

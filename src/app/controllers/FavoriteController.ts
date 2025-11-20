@@ -13,7 +13,7 @@ import {
   addresses,
   ratingStores,
   schedules,
-} from '../../database/schema';
+} from '../../db/schema';
 
 class FavoriteController {
   async show(req: Request, res: Response): Promise<Response> {

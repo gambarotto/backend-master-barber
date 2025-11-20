@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { eq, and } from 'drizzle-orm';
 
 import db from '../../config/database';
-import { avaliations, custumers, stores, ratingStores } from '../../database/schema';
+import { avaliations, custumers, stores, ratingStores } from '../../db/schema';
 
 class AvaliationController {
   async show(req: Request, res: Response): Promise<Response> {

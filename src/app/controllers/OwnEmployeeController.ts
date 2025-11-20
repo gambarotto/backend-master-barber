@@ -3,7 +3,7 @@ import { startOfDay, endOfDay } from 'date-fns';
 import { eq, and, between } from 'drizzle-orm';
 
 import db from '../../config/database';
-import { employees, stores, addresses, schedules, appointments } from '../../database/schema';
+import { employees, stores, addresses, schedules, appointments } from '../../db/schema';
 import { checkPassword, hashPassword } from '../../utils/password';
 
 class OwnEmployeeController {

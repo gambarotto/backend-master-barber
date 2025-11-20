@@ -13,33 +13,40 @@ const uploadAvatar = multer(multerConfig.configAvatars);
 
 const routes = Router();
 
-routes.post('/sessions/employees', SessionController.employeeStore);
+routes.post('/sessions/employees', (req, res) =>
+  SessionController.employeeStore(req, res)
+);
 
-routes.delete('/appointments/:id', AppointmentController.delete);
+routes.delete('/appointments/:id', (req, res) =>
+  AppointmentController.delete(req, res)
+);
 
-routes.get('/employees', authMidEmployee, OwnEmployee.index);
-routes.delete('/employees', authMidEmployee, OwnEmployee.delete);
-routes.put('/employees', authMidEmployee, OwnEmployee.update);
+routes.get('/employees', authMidEmployee, (req, res) =>
+  OwnEmployee.index(req, res)
+);
+routes.delete('/employees', authMidEmployee, (req, res) =>
+  OwnEmployee.delete(req, res)
+);
+routes.put('/employees', authMidEmployee, (req, res) =>
+  OwnEmployee.update(req, res)
+);
 routes.post(
   '/employees/:employee_id/avatars',
   uploadAvatar.single('avatar'),
-  AvatarController.storeEmployees
+  (req, res) => AvatarController.storeEmployees(req, res)
 );
-routes.get(
-  '/employees/appointments',
-  authMidEmployee,
-  OwnEmployee.listAppointments
+routes.get('/employees/appointments', authMidEmployee, (req, res) =>
+  OwnEmployee.listAppointments(req, res)
 );
 routes.delete(
   '/employees/appointments/:appointments_id',
   authMidEmployee,
-  OwnEmployee.deleteAppointments
+  (req, res) => OwnEmployee.deleteAppointments(req, res)
 );
 
 routes.put(
   '/employees/appointments/:appointments_id/validations',
   authMidEmployee,
-  OwnEmployee.validationAppointiment
+  (req, res) => OwnEmployee.validationAppointiment(req, res)
 );
 export default routes;
-

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { eq } from 'drizzle-orm';
 
 import db from '../../config/database';
-import { couponCustumers, stores, images, ratingStores, addresses } from '../../database/schema';
+import { couponCustumers, stores, images, ratingStores, addresses } from '../../db/schema';
 
 class CouponController {
   async show(req: Request, res: Response): Promise<Response> {

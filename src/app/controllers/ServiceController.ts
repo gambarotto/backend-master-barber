@@ -1,8 +1,12 @@
 import { Request, Response } from 'express';
 import { eq } from 'drizzle-orm';
+import type { InferSelectModel } from 'drizzle-orm';
 
-import db from '../../config/database';
-import { services, users } from '../../database/schema';
+import { db } from '../../config/database';
+import { services, users } from '../../db/schemas';
+
+type User = InferSelectModel<typeof users>;
+type Service = InferSelectModel<typeof services>;
 
 class ServiceController {
   async index(req: Request, res: Response): Promise<Response> {
@@ -13,112 +17,133 @@ class ServiceController {
         price: services.price,
       })
       .from(services)
-      .where(eq(services.storeId, Number(req.query.store)));
-    
+      .where(eq(services.store_id, Number(req.query.store)));
+
     return res.json(servicesList);
   }
 
   async store(req: Request, res: Response): Promise<Response> {
-    const [user] = await db
+    const result = await db
       .select()
       .from(users)
       .where(eq(users.id, req.userId!))
       .limit(1);
-    
+    const user: User | undefined = result[0];
+
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    
-    if (user.storeId !== req.body.store_id) {
+
+    const { name, price, store_id } = req.body as {
+      name: string;
+      price: string;
+      store_id: number;
+    };
+    if (user.store_id !== store_id) {
       return res
         .status(404)
         .json({ error: 'you cannot create a different store service' });
     }
-    
+
     const [newService] = await db
       .insert(services)
       .values({
-        name: req.body.name,
-        price: req.body.price,
-        storeId: req.body.store_id,
+        name,
+        price,
+        store_id,
       })
       .returning();
-    
+
     return res.json(newService);
   }
 
   async update(req: Request, res: Response): Promise<Response> {
-    const [service] = await db
+    const serviceResult = await db
       .select()
       .from(services)
       .where(eq(services.id, Number(req.params.service_id)))
       .limit(1);
-    
+    const service: Service | undefined = serviceResult[0];
+
     if (!service) {
       return res.status(404).json({ error: 'Service not found' });
     }
-    
-    const [user] = await db
+
+    const userResult = await db
       .select()
       .from(users)
       .where(eq(users.id, req.userId!))
       .limit(1);
-    
+    const user: User | undefined = userResult[0];
+
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    if (user.storeId !== req.body.store_id) {
+    const { store_id } = req.body as { store_id?: number };
+    if (store_id && user.store_id !== store_id) {
       return res
         .status(404)
         .json({ error: 'you cannot add a different store service' });
     }
-    
-    const updateData: any = {};
-    if (req.body.name) updateData.name = req.body.name;
-    if (req.body.price) updateData.price = req.body.price;
-    if (req.body.store_id) updateData.storeId = req.body.store_id;
+
+    const { name, price } = req.body as {
+      name?: string;
+      price?: string;
+      store_id?: number;
+    };
+    const updateData: {
+      name?: string;
+      price?: string;
+      store_id?: number;
+    } = {};
+    if (name) updateData.name = name;
+    if (price) updateData.price = price;
+    if (store_id) updateData.store_id = store_id;
 
     const [updated] = await db
       .update(services)
       .set(updateData)
       .where(eq(services.id, Number(req.params.service_id)))
       .returning();
-    
+
     return res.json(updated);
   }
 
   async delete(req: Request, res: Response): Promise<Response> {
-    const [service] = await db
+    const serviceResult = await db
       .select()
       .from(services)
       .where(eq(services.id, Number(req.params.service_id)))
       .limit(1);
-    
+    const service: Service | undefined = serviceResult[0];
+
     if (!service) {
       return res.status(404).json({ error: 'Service not found' });
     }
-    
-    const [user] = await db
+
+    const userResult = await db
       .select()
       .from(users)
       .where(eq(users.id, req.userId!))
       .limit(1);
-    
+    const user: User | undefined = userResult[0];
+
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    
-    if (user.storeId !== req.body.store_id) {
+
+    const { store_id } = req.body as { store_id?: number };
+    if (store_id && user.store_id !== store_id) {
       return res
         .status(404)
         .json({ error: 'you cannot delete a different store service' });
     }
-    
+
     await db
       .delete(services)
       .where(eq(services.id, Number(req.params.service_id)));
-    
+
     return res.json({ success: 'Serviço excluído com Sucesso!' });
   }
 }

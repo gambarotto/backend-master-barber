@@ -4,7 +4,7 @@ import { promisify } from 'util';
 import { eq } from 'drizzle-orm';
 
 import db from '../../config/database';
-import { employees } from '../../database/schema';
+import { employees } from '../../db/schema';
 import authConfig from '../../config/auth';
 
 interface JwtPayload {

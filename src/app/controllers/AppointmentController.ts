@@ -3,7 +3,7 @@ import { startOfDay, endOfDay } from 'date-fns';
 import { eq, and, between, isNull, isNotNull } from 'drizzle-orm';
 
 import db from '../../config/database';
-import { stores, employees, appointments, custumers } from '../../database/schema';
+import { stores, employees, appointments, custumers } from '../../db/schema';
 import verifyIsCancelable from '../../utils/verifyIsCancelable';
 
 class AppointmentController {

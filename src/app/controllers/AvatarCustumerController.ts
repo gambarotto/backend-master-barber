@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { eq } from 'drizzle-orm';
 
 import db from '../../config/database';
-import { avatars, custumers } from '../../database/schema';
+import { avatars, custumers } from '../../db/schema';
 
 class AvatarUserController {
   async index(req: Request, res: Response): Promise<Response> {

@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { eq } from 'drizzle-orm';
 
 import db from '../../config/database';
-import { stores, schedules, employees } from '../../database/schema';
+import { stores, schedules, employees } from '../../db/schema';
 import formatSchedule from '../../utils/formatSchedule';
 
 class ScheduleController {

@@ -11,7 +11,7 @@ import {
 import { eq, and, between, isNull } from 'drizzle-orm';
 
 import db from '../../config/database';
-import { appointments, employees, schedules } from '../../database/schema';
+import { appointments, employees, schedules } from '../../db/schema';
 import Fetch from '../../utils/fetch';
 
 class AvailableController {
